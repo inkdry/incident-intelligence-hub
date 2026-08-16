@@ -36,4 +36,18 @@ public sealed class Incident
     public IncidentStatus Status { get; private set; }
 
     public DateTimeOffset ReportedAtUtc { get; private set; }
+
+    public DateTimeOffset? InvestigationStartedAtUtc { get; private set; }
+
+    public void StartInvestigation()
+    {
+        if (Status != IncidentStatus.Reported)
+        {
+            throw new InvalidOperationException("Only a reported incident can begin investigation.");
+        }
+
+        // Record the lifecycle change and its audit timestamp.
+        Status = IncidentStatus.Investigating;
+        InvestigationStartedAtUtc = DateTimeOffset.UtcNow;
+    }
 }

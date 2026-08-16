@@ -41,4 +41,33 @@ public sealed class IncidentTests
 
         Assert.Equal("title", exception.ParamName);
     }
+
+    [Fact]
+    public void StartInvestigationChangesReportedIncident()
+    {
+        var incident = new Incident(
+            "Authentication failures",
+            "Users cannot sign in.",
+            IncidentSeverity.High);
+
+        incident.StartInvestigation();
+
+        Assert.Equal(IncidentStatus.Investigating, incident.Status);
+        Assert.NotNull(incident.InvestigationStartedAtUtc);
+    }
+
+    [Fact]
+    public void StartInvestigationRejectsInvalidTransition()
+    {
+        var incident = new Incident(
+            "Authentication failures",
+            "Users cannot sign in.",
+            IncidentSeverity.High);
+
+        incident.StartInvestigation();
+
+        var exception = Assert.Throws<InvalidOperationException>(incident.StartInvestigation);
+
+        Assert.Contains("reported incident", exception.Message);
+    }
 }
