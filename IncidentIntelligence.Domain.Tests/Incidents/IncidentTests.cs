@@ -33,11 +33,7 @@ public sealed class IncidentTests
     [Fact]
     public void ConstructorRejectsBlankTitle()
     {
-        var exception = Assert.Throws<ArgumentException>(
-            () => new Incident(
-                " ",
-                "A useful description.",
-                IncidentSeverity.Medium));
+        var exception = Assert.Throws<ArgumentException>(() => new Incident(" ", "A useful description.", IncidentSeverity.Medium));
 
         Assert.Equal("title", exception.ParamName);
     }
@@ -45,10 +41,7 @@ public sealed class IncidentTests
     [Fact]
     public void StartInvestigationChangesReportedIncident()
     {
-        var incident = new Incident(
-            "Authentication failures",
-            "Users cannot sign in.",
-            IncidentSeverity.High);
+        var incident = new Incident("Authentication failures", "Users cannot sign in.", IncidentSeverity.High);
 
         incident.StartInvestigation();
 
@@ -59,10 +52,7 @@ public sealed class IncidentTests
     [Fact]
     public void StartInvestigationRejectsInvalidTransition()
     {
-        var incident = new Incident(
-            "Authentication failures",
-            "Users cannot sign in.",
-            IncidentSeverity.High);
+        var incident = new Incident("Authentication failures", "Users cannot sign in.", IncidentSeverity.High);
 
         incident.StartInvestigation();
 

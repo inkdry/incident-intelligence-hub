@@ -3,6 +3,8 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="IncidentIntelligence.Api/IncidentIntelligence.Api.csproj" />
+  <Project Path="IncidentIntelligence.Application.Tests/IncidentIntelligence.Application.Tests.csproj" Id="9860b78c-38da-44fd-96f8-d0a1e4565f00" />
+  <Project Path="IncidentIntelligence.Application/IncidentIntelligence.Application.csproj" Id="a4a41204-6319-47c5-9c52-fd1894a3825d" />
   <Project Path="IncidentIntelligence.Domain.Tests/IncidentIntelligence.Domain.Tests.csproj" Id="2bc04472-3f48-4995-9e32-d991cc9f1e95" />
   <Project Path="IncidentIntelligence.Domain/IncidentIntelligence.Domain.csproj" Id="030bacd5-d116-4bb9-a9b2-e7c773911cb5" />
 </Solution>
