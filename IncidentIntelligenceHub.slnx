@@ -7,4 +7,5 @@
   <Project Path="IncidentIntelligence.Application/IncidentIntelligence.Application.csproj" Id="a4a41204-6319-47c5-9c52-fd1894a3825d" />
   <Project Path="IncidentIntelligence.Domain.Tests/IncidentIntelligence.Domain.Tests.csproj" Id="2bc04472-3f48-4995-9e32-d991cc9f1e95" />
   <Project Path="IncidentIntelligence.Domain/IncidentIntelligence.Domain.csproj" Id="030bacd5-d116-4bb9-a9b2-e7c773911cb5" />
+  <Project Path="IncidentIntelligence.Infrastructure/IncidentIntelligence.Infrastructure.csproj" Id="8421c05b-bc4b-4d13-8ea4-77f331bd4aa9" />
 </Solution>

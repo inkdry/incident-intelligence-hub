@@ -1,0 +1,18 @@
+﻿using IncidentIntelligence.Application.Incidents;
+using IncidentIntelligence.Domain.Incidents;
+
+namespace IncidentIntelligence.Api.GraphQL;
+
+public sealed class Mutation
+{
+    public async Task<Incident> ReportIncidentAsync(
+        ReportIncidentInput input,
+        [Service] IIncidentReportingService reportingService,
+        CancellationToken cancellationToken)
+    {
+        // Translate the GraphQL input into an application command.
+        var command = new ReportIncidentCommand(input.Title, input.Description, input.Severity);
+
+        return await reportingService.ReportAsync(command, cancellationToken);
+    }
+}
