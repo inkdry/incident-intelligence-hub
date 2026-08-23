@@ -1,6 +1,5 @@
 using IncidentIntelligence.Api.GraphQL;
 using IncidentIntelligence.Application.Incidents;
-using IncidentIntelligence.Infrastructure.Incidents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +8,6 @@ builder.Services.AddOpenApi();
 builder.Services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
 builder.Services.AddSingleton<IIncidentRepository, InMemoryIncidentRepository>();
 builder.Services.AddScoped<IIncidentReportingService, IncidentReportingService>();
-
 
 var app = builder.Build();
 

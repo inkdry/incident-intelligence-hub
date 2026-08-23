@@ -52,6 +52,15 @@ public sealed class IncidentReportingServiceTests
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc />
+        public Task<IReadOnlyCollection<Incident>> GetAllAsync(
+            CancellationToken cancellationToken)
+        {
+            IReadOnlyCollection<Incident> incidents = [];
+
+            return Task.FromResult(incidents);
+        }
+
         public Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             SaveChangesCallCount++;
