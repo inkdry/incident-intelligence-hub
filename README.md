@@ -3,6 +3,8 @@
 An AI-powered incident management platform built with React, GraphQL,
 ASP.NET Core, and Azure.
 
+[![Build and Test](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml)
+
 ## Overview
 
 Incident Intelligence Hub helps teams record, investigate, and resolve
