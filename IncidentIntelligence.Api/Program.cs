@@ -23,3 +23,8 @@ app.MapGraphQL();
 
 app.Run();
 
+/// <summary>
+/// Exposes the application entry point to integration tests.
+/// </summary>
+public partial class Program;
+

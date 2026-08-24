@@ -2,6 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
   </Folder>
+  <Project Path="IncidentIntelligence.Api.Tests/IncidentIntelligence.Api.Tests.csproj" Id="427223e1-febf-4b83-814b-cc63e58ac88c" />
   <Project Path="IncidentIntelligence.Api/IncidentIntelligence.Api.csproj" />
   <Project Path="IncidentIntelligence.Application.Tests/IncidentIntelligence.Application.Tests.csproj" Id="9860b78c-38da-44fd-96f8-d0a1e4565f00" />
   <Project Path="IncidentIntelligence.Application/IncidentIntelligence.Application.csproj" Id="a4a41204-6319-47c5-9c52-fd1894a3825d" />
