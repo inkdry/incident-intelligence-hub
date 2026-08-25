@@ -6,8 +6,7 @@ namespace IncidentIntelligence.Infrastructure.Persistence;
 /// <summary>
 /// Provides database access for the application.
 /// </summary>
-public sealed class IncidentIntelligenceDbContext(
-    DbContextOptions<IncidentIntelligenceDbContext> options)
+public sealed class IncidentIntelligenceDbContext(DbContextOptions<IncidentIntelligenceDbContext> options)
     : DbContext(options)
 {
     /// <summary>
@@ -15,10 +14,8 @@ public sealed class IncidentIntelligenceDbContext(
     /// </summary>
     public DbSet<Incident> Incidents => Set<Incident>();
 
-    protected override void OnModelCreating(
-        ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(IncidentIntelligenceDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IncidentIntelligenceDbContext).Assembly);
     }
 }

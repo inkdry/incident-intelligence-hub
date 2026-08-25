@@ -16,8 +16,7 @@ public sealed class InMemoryIncidentRepository : IIncidentRepository
 
         if (!_incidents.TryAdd(incident.Id, incident))
         {
-            throw new InvalidOperationException(
-                $"Incident '{incident.Id}' already exists.");
+            throw new InvalidOperationException($"Incident '{incident.Id}' already exists.");
         }
 
         return Task.CompletedTask;
