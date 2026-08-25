@@ -24,8 +24,7 @@ public sealed class InMemoryIncidentRepository : IIncidentRepository
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<Incident>> GetAllAsync(
-        CancellationToken cancellationToken)
+    public Task<IReadOnlyCollection<Incident>> GetAllAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

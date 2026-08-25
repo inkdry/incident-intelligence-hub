@@ -2,6 +2,13 @@
 
 public sealed class Incident
 {
+    private Incident()
+    {
+        // Required by Entity Framework Core.
+        Title = string.Empty;
+        Description = string.Empty;
+    }
+
     public Incident(
         string title,
         string description,
