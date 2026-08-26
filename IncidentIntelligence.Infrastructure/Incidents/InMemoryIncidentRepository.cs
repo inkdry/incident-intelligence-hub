@@ -2,6 +2,8 @@
 using IncidentIntelligence.Domain.Incidents;
 using System.Collections.Concurrent;
 
+namespace IncidentIntelligence.Infrastructure.Incidents;
+
 /// <summary>
 /// Stores incidents in memory during application development.
 /// </summary>

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IncidentIntelligence.Api\IncidentIntelligence.Api.csproj" />
+    <ProjectReference Include="..\IncidentIntelligence.Infrastructure\IncidentIntelligence.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

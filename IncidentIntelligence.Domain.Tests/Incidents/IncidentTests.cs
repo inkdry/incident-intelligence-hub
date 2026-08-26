@@ -21,11 +21,7 @@ public sealed class IncidentTests
     [Fact]
     public void ConstructorTrimsText()
     {
-        var incident = new Incident(
-            "  Database latency  ",
-            "  Queries are timing out.  ",
-            IncidentSeverity.High);
-
+        var incident = new Incident("  Database latency  ",  "  Queries are timing out.  ",  IncidentSeverity.High);
         Assert.Equal("Database latency", incident.Title);
         Assert.Equal("Queries are timing out.", incident.Description);
     }

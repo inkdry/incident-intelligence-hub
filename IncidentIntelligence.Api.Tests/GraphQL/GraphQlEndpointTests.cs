@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace IncidentIntelligence.Api.Tests.GraphQL;
@@ -7,9 +6,8 @@ namespace IncidentIntelligence.Api.Tests.GraphQL;
 /// <summary>
 /// Verifies the GraphQL endpoint through the HTTP pipeline.
 /// </summary>
-public sealed class GraphQlEndpointTests(
-    WebApplicationFactory<Program> application)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class GraphQlEndpointTests(CustomWebApplicationFactory application)
+    : IClassFixture<CustomWebApplicationFactory>
 {
     [Fact]
     public async Task StatusQueryReturnsHealthyMessage()
@@ -108,4 +106,6 @@ public sealed class GraphQlEndpointTests(
 
         Assert.Contains(incidents, incident => incident.GetProperty("id").GetString() == incidentId);
     }
+
+
 }
