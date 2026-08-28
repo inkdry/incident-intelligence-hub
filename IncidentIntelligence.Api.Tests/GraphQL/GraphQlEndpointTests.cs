@@ -62,15 +62,11 @@ public sealed class GraphQlEndpointTests(CustomWebApplicationFactory application
             }
         };
 
-        using var mutationResponse = await client.PostAsJsonAsync(
-            "/graphql",
-            mutationRequest,
-            cancellationToken);
+        using var mutationResponse = await client.PostAsJsonAsync("/graphql", mutationRequest, cancellationToken);
 
         mutationResponse.EnsureSuccessStatusCode();
 
-        using var mutationDocument = await mutationResponse
-            .Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
+        using var mutationDocument = await mutationResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
 
         Assert.NotNull(mutationDocument);
 

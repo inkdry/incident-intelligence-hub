@@ -29,8 +29,7 @@ public sealed class InMemoryIncidentRepository : IIncidentRepository
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        IReadOnlyCollection<Incident> incidents =
-            _incidents.Values
+        IReadOnlyCollection<Incident> incidents = _incidents.Values
                 .OrderByDescending(incident => incident.ReportedAtUtc)
                 .ToArray();
 

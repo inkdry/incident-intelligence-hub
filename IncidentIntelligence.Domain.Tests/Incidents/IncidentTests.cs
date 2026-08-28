@@ -7,10 +7,7 @@ public sealed class IncidentTests
     [Fact]
     public void ConstructorCreatesReportedIncident()
     {
-        var incident = new Incident(
-            "Payment API unavailable",
-            "Customers cannot complete payments.",
-            IncidentSeverity.Critical);
+        var incident = new Incident("Payment API unavailable", "Customers cannot complete payments.", IncidentSeverity.Critical);
 
         Assert.NotEqual(Guid.Empty, incident.Id);
         Assert.Equal("Payment API unavailable", incident.Title);
