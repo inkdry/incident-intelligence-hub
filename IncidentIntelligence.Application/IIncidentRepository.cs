@@ -18,6 +18,11 @@ public interface IIncidentRepository
     Task<IReadOnlyCollection<Incident>> GetAllAsync(CancellationToken cancellationToken);
 
     /// <summary>
+    /// Returns a single incident by identifier, or null when not found.
+    /// </summary>
+    Task<Incident?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Saves pending storage changes.
     /// </summary>
     Task SaveChangesAsync(CancellationToken cancellationToken);

@@ -14,15 +14,7 @@ public sealed class Incident
         string description,
         IncidentSeverity severity)
     {
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new ArgumentException("Incident title is required.", nameof(title));
-        }
-
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new ArgumentException("Incident description is required.", nameof(description));
-        }
+        ValidateTitleAndDescription(title, description);
 
         Id = Guid.NewGuid();
         Title = title.Trim();
@@ -56,5 +48,30 @@ public sealed class Incident
         // Record the lifecycle change and its audit timestamp.
         Status = IncidentStatus.Investigating;
         InvestigationStartedAtUtc = DateTimeOffset.UtcNow;
+    }
+
+    /// <summary>
+    /// Updates the editable details of the incident.
+    /// </summary>
+    public void UpdateDetails(string title, string description, IncidentSeverity severity)
+    {
+        ValidateTitleAndDescription(title, description);
+
+        Title = title.Trim();
+        Description = description.Trim();
+        Severity = severity;
+    }
+
+    private static void ValidateTitleAndDescription(string title, string description)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("Incident title is required.", nameof(title));
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            throw new ArgumentException("Incident description is required.", nameof(description));
+        }
     }
 }

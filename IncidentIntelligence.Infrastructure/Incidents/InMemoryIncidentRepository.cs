@@ -37,6 +37,16 @@ public sealed class InMemoryIncidentRepository : IIncidentRepository
     }
 
     /// <inheritdoc />
+    public Task<Incident?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        _incidents.TryGetValue(id, out var incident);
+
+        return Task.FromResult(incident);
+    }
+
+    /// <inheritdoc />
     public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

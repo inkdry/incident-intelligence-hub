@@ -15,4 +15,14 @@ public sealed class Mutation
 
         return await reportingService.ReportAsync(command, cancellationToken);
     }
+
+    public async Task<Incident> UpdateIncidentAsync(
+        UpdateIncidentInput input,
+        [Service] IIncidentReportingService reportingService,
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateIncidentCommand(input.Id, input.Title, input.Description, input.Severity);
+
+        return await reportingService.UpdateAsync(command, cancellationToken);
+    }
 }

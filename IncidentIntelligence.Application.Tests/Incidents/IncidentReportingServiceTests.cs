@@ -61,6 +61,11 @@ public sealed class IncidentReportingServiceTests
             return Task.FromResult(incidents);
         }
 
+        public Task<Incident?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<Incident?>(null);
+        }
+
         public Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             SaveChangesCallCount++;
