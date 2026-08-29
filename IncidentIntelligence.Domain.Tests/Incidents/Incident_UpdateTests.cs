@@ -35,4 +35,26 @@ public sealed class Incident_UpdateTests
 
         Assert.Equal("description", ex.ParamName);
     }
+
+    [Fact]
+    public void UpdateDetails_TitleTooLong_ThrowsArgumentException()
+    {
+        var incident = new Incident("Original title", "Original description", IncidentSeverity.Low);
+        var longTitle = new string('A', 201);
+
+        var ex = Assert.Throws<ArgumentException>(() => incident.UpdateDetails(longTitle, "Desc", IncidentSeverity.Low));
+
+        Assert.Equal("title", ex.ParamName);
+    }
+
+    [Fact]
+    public void UpdateDetails_DescriptionTooLong_ThrowsArgumentException()
+    {
+        var incident = new Incident("Original title", "Original description", IncidentSeverity.Low);
+        var longDescription = new string('B', 4001);
+
+        var ex = Assert.Throws<ArgumentException>(() => incident.UpdateDetails("Title", longDescription, IncidentSeverity.Low));
+
+        Assert.Equal("description", ex.ParamName);
+    }
 }

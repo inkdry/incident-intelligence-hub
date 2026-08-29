@@ -69,9 +69,21 @@ public sealed class Incident
             throw new ArgumentException("Incident title is required.", nameof(title));
         }
 
+        // Enforce database constraints: Title max length 200
+        if (title.Trim().Length > 200)
+        {
+            throw new ArgumentException("Incident title must not exceed 200 characters.", nameof(title));
+        }
+
         if (string.IsNullOrWhiteSpace(description))
         {
             throw new ArgumentException("Incident description is required.", nameof(description));
+        }
+
+        // Enforce database constraints: Description max length 4000
+        if (description.Trim().Length > 4000)
+        {
+            throw new ArgumentException("Incident description must not exceed 4000 characters.", nameof(description));
         }
     }
 }

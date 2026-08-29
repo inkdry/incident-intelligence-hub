@@ -23,13 +23,11 @@ public sealed class EntityFrameworkIncidentRepository(IncidentIntelligenceDbCont
     }
 
     /// <inheritdoc />
-    public Task<Incident?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Incident?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return dbContext.Incidents
-            .AsNoTracking()
-            .SingleOrDefaultAsync(
-                incident => incident.Id == id,
-                cancellationToken);
+        // Use FindAsync to return a tracked entity suitable for update scenarios.
+        var entity = await dbContext.Incidents.FindAsync(new object[] { id }, cancellationToken);
+        return entity;
     }
 
     /// <inheritdoc />

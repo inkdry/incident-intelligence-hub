@@ -32,6 +32,26 @@ public sealed class IncidentTests
     }
 
     [Fact]
+    public void ConstructorRejectsLongTitle()
+    {
+        var longTitle = new string('X', 201);
+
+        var exception = Assert.Throws<ArgumentException>(() => new Incident(longTitle, "A useful description.", IncidentSeverity.Medium));
+
+        Assert.Equal("title", exception.ParamName);
+    }
+
+    [Fact]
+    public void ConstructorRejectsLongDescription()
+    {
+        var longDescription = new string('Y', 4001);
+
+        var exception = Assert.Throws<ArgumentException>(() => new Incident("Title", longDescription, IncidentSeverity.Medium));
+
+        Assert.Equal("description", exception.ParamName);
+    }
+
+    [Fact]
     public void StartInvestigationChangesReportedIncident()
     {
         var incident = new Incident("Authentication failures", "Users cannot sign in.", IncidentSeverity.High);
