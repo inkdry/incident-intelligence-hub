@@ -25,4 +25,17 @@ public sealed class Query
     {
         return repository.GetAllAsync(cancellationToken);
     }
+
+    /// <summary>
+    /// Returns an incident by its identifier.
+    /// </summary>
+    public Task<Incident?> GetIncidentByIdAsync(
+        Guid id,
+        [Service] IIncidentRepository repository,
+        CancellationToken cancellationToken)
+    {
+        return repository.GetByIdAsync(
+            id,
+            cancellationToken);
+    }
 }
