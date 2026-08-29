@@ -1,7 +1,8 @@
 # Incident Intelligence Hub
 
-An AI-powered incident management platform built with React, GraphQL,
-ASP.NET Core, and Azure.
+An AI-assisted incident management platform. This repository contains the
+API and domain implementation. A React frontend and Azure deployment are
+planned features (see Planned Features).
 
 [![Build and Test](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml)
 
@@ -13,24 +14,20 @@ identify similar historical events, and generate draft post-incident reports.
 
 ## Current Features
 
-- ASP.NET Core 10 GraphQL API
-- Hot Chocolate GraphQL server
-- Nitro GraphQL development interface
-- Incident domain model
-- Incident severity and lifecycle status
-- xUnit v3 domain tests
+- ASP.NET Core 10 GraphQL API (Hot Chocolate)
+- GraphQL queries and mutations for incidents (status, list, report, update)
+- Entity Framework Core persistence to SQL Server (Incidents table and migrations)
+- Incident domain model (validation and lifecycle)
+- xUnit v3 tests (unit and integration)
+
+Note: The Nitro (GraphQL tooling) interface is available in Development only.
 
 ## Planned Features
 
-- GraphQL queries, mutations, and subscriptions
-- SQL Server persistence with Entity Framework Core
-- React and TypeScript user interface
-- Incident timelines and corrective actions
-- AI-generated incident summaries
-- Similar-incident semantic search
+- React and TypeScript user interface (frontend)
+- AI-generated incident summaries and similarity search
 - Authentication and role-based authorization
-- Automated testing and GitHub Actions
-- Azure deployment and observability
+- Expanded automation and CI/CD workflows targeting GitHub Actions and Azure
 
 ## Technology Stack
 
@@ -51,7 +48,11 @@ identify similar historical events, and generate draft post-incident reports.
 3. Run the application.
 4. Open `/graphql` using the HTTPS address displayed by Visual Studio.
 
-Run this query in the Nitro GraphQL interface:
+The GraphQL endpoint accepts POST requests for queries and mutations. The
+GraphQL tooling (Nitro) is enabled only when running in the Development
+environment.
+
+Run this query (POST) against `/graphql`:
 
 ```graphql
 query {

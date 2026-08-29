@@ -2,6 +2,9 @@
 
 public sealed class Incident
 {
+    public const int TitleMaxLength = 200;
+    public const int DescriptionMaxLength = 4000;
+
     private Incident()
     {
         // Required by Entity Framework Core.
@@ -69,10 +72,10 @@ public sealed class Incident
             throw new ArgumentException("Incident title is required.", nameof(title));
         }
 
-        // Enforce database constraints: Title max length 200
-        if (title.Trim().Length > 200)
+        // Enforce database constraints: Title max length
+        if (title.Trim().Length > TitleMaxLength)
         {
-            throw new ArgumentException("Incident title must not exceed 200 characters.", nameof(title));
+            throw new ArgumentException($"Incident title must not exceed {TitleMaxLength} characters.", nameof(title));
         }
 
         if (string.IsNullOrWhiteSpace(description))
@@ -80,10 +83,10 @@ public sealed class Incident
             throw new ArgumentException("Incident description is required.", nameof(description));
         }
 
-        // Enforce database constraints: Description max length 4000
-        if (description.Trim().Length > 4000)
+        // Enforce database constraints: Description max length
+        if (description.Trim().Length > DescriptionMaxLength)
         {
-            throw new ArgumentException("Incident description must not exceed 4000 characters.", nameof(description));
+            throw new ArgumentException($"Incident description must not exceed {DescriptionMaxLength} characters.", nameof(description));
         }
     }
 }

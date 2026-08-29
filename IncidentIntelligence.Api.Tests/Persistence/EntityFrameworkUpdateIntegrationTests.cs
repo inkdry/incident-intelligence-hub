@@ -29,23 +29,25 @@ public sealed class EntityFrameworkUpdateIntegrationTests
 
         Guid id;
 
+        var cancellationToken = TestContext.Current.CancellationToken;
+
         // Create and update using first context
         using (var context = new IncidentIntelligenceDbContext(options))
         {
             var repository = new EntityFrameworkIncidentRepository(context);
             var service = new IncidentReportingService(repository);
 
-            var created = await service.ReportAsync(new ReportIncidentCommand("EF title", "EF description", IncidentSeverity.High), CancellationToken.None);
+            var created = await service.ReportAsync(new ReportIncidentCommand("EF title", "EF description", IncidentSeverity.High), cancellationToken);
             id = created.Id;
 
-            await service.UpdateAsync(new UpdateIncidentCommand(id, "EF updated", "EF updated desc", IncidentSeverity.Medium), CancellationToken.None);
+            await service.UpdateAsync(new UpdateIncidentCommand(id, "EF updated", "EF updated desc", IncidentSeverity.Medium), cancellationToken);
         }
 
         // Reload in a new context and verify
         using (var verifyContext = new IncidentIntelligenceDbContext(options))
         {
             var repository = new EntityFrameworkIncidentRepository(verifyContext);
-            var loaded = await repository.GetByIdAsync(id, CancellationToken.None);
+            var loaded = await repository.GetByIdAsync(id, cancellationToken);
 
             Assert.NotNull(loaded);
             Assert.Equal("EF updated", loaded!.Title);

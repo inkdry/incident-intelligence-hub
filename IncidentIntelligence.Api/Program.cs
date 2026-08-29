@@ -28,25 +28,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Restrict the GraphQL developer tooling UI to Development only.
-// The GraphQL endpoint (POST) remains available in all environments,
-// but browser GET requests that accept HTML (the tooling UI) are blocked in non-development.
-app.Use(async (context, next) =>
-{
-    if (!app.Environment.IsDevelopment()
-        && context.Request.Path.Equals("/graphql", StringComparison.OrdinalIgnoreCase)
-        && string.Equals(context.Request.Method, "GET", StringComparison.OrdinalIgnoreCase)
-        && context.Request.Headers.TryGetValue("Accept", out var accept)
-        && accept.Any(h => h.Contains("text/html", StringComparison.OrdinalIgnoreCase)))
+// Map GraphQL and enable the GraphQL tooling only in Development via HotChocolate options.
+app.MapGraphQL()
+    .WithOptions(options =>
     {
-        context.Response.StatusCode = StatusCodes.Status404NotFound;
-        return;
-    }
-
-    await next();
-});
-
-app.MapGraphQL();
+        options.Tool.Enable = app.Environment.IsDevelopment();
+    });
 
 app.Run();
 

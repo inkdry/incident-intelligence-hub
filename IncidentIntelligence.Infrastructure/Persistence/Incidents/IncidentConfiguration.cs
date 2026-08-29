@@ -15,9 +15,9 @@ public sealed class IncidentConfiguration : IEntityTypeConfiguration<Incident>
 
         builder.HasKey(incident => incident.Id);
 
-        builder.Property(incident => incident.Title).HasMaxLength(200).IsRequired();
+        builder.Property(incident => incident.Title).HasMaxLength(Incident.TitleMaxLength).IsRequired();
 
-        builder.Property(incident => incident.Description).HasMaxLength(4000).IsRequired();
+        builder.Property(incident => incident.Description).HasMaxLength(Incident.DescriptionMaxLength).IsRequired();
 
         builder.Property(incident => incident.Severity).HasConversion<string>().HasMaxLength(20).IsRequired();
 
