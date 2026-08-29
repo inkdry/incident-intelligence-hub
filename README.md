@@ -30,16 +30,21 @@ Note: The Nitro (GraphQL tooling) interface is available in Development only.
 - Expanded automation and CI/CD workflows targeting GitHub Actions and Azure
 
 ## Technology Stack
+Implemented
 
 - .NET 10
 - ASP.NET Core
-- Hot Chocolate GraphQL
-- React
-- TypeScript
+- GraphQL (Hot Chocolate)
 - SQL Server
 - Entity Framework Core
 - xUnit v3
+
+Planned
+
+- React
+- TypeScript
 - Azure
+- AI integration (summarization, similarity search)
 
 ## Running the GraphQL API
 
