@@ -38,7 +38,8 @@ public sealed class UpdateIncidentMutationTests(CustomWebApplicationFactory appl
         using var createResponse = await client.PostAsJsonAsync("/graphql", createRequest, cancellationToken);
         createResponse.EnsureSuccessStatusCode();
 
-        using var createDoc = await createResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
+        using var createDoc = await createResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken)
+            ?? throw new InvalidOperationException("The create incident response did not contain JSON.");
         var created = createDoc.RootElement.GetProperty("data").GetProperty("reportIncident");
         var id = created.GetProperty("id").GetString();
 
@@ -69,7 +70,8 @@ public sealed class UpdateIncidentMutationTests(CustomWebApplicationFactory appl
         using var updateResponse = await client.PostAsJsonAsync("/graphql", updateRequest, cancellationToken);
         updateResponse.EnsureSuccessStatusCode();
 
-        using var updateDoc = await updateResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
+        using var updateDoc = await updateResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken)
+            ?? throw new InvalidOperationException("The update incident response did not contain JSON.");
 
         var updated = updateDoc.RootElement.GetProperty("data").GetProperty("updateIncident");
 
@@ -81,7 +83,8 @@ public sealed class UpdateIncidentMutationTests(CustomWebApplicationFactory appl
         using var queryResponse = await client.PostAsJsonAsync("/graphql", queryRequest, cancellationToken);
         queryResponse.EnsureSuccessStatusCode();
 
-        using var queryDoc = await queryResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
+        using var queryDoc = await queryResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken)
+            ?? throw new InvalidOperationException("The incidents query response did not contain JSON.");
         var incidents = queryDoc.RootElement.GetProperty("data").GetProperty("incidents").EnumerateArray();
 
         Assert.Contains(incidents, i => i.GetProperty("id").GetString() == id && i.GetProperty("title").GetString() == "Updated integration incident");
@@ -118,7 +121,8 @@ public sealed class UpdateIncidentMutationTests(CustomWebApplicationFactory appl
         using var updateResponse = await client.PostAsJsonAsync("/graphql", updateRequest, cancellationToken);
         updateResponse.EnsureSuccessStatusCode();
 
-        using var updateDoc = await updateResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken);
+        using var updateDoc = await updateResponse.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken)
+            ?? throw new InvalidOperationException("The update incident response did not contain JSON.");
 
         // GraphQL should include errors when the operation throws
         Assert.True(updateDoc.RootElement.TryGetProperty("errors", out _));

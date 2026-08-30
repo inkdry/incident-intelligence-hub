@@ -1,6 +1,6 @@
 # Incident Intelligence Hub
 
-An AI-assisted incident management platform. This repository contains the
+An incident management platform designed for AI-assisted workflows This repository contains the
 API and domain implementation. A React frontend and Azure deployment are
 planned features (see Planned Features).
 
@@ -30,7 +30,7 @@ Note: The Nitro (GraphQL tooling) interface is available in Development only.
 - Expanded automation and CI/CD workflows targeting GitHub Actions and Azure
 
 ## Technology Stack
-Implemented
+### Implemented
 
 - .NET 10
 - ASP.NET Core
@@ -39,7 +39,7 @@ Implemented
 - Entity Framework Core
 - xUnit v3
 
-Planned
+### Planned
 
 - React
 - TypeScript
@@ -64,6 +64,14 @@ query {
   status
 }
 ```
+## Database Setup
+
+The API uses SQL Server LocalDB during local development.
+
+In Visual Studio, open:
+
+```text
+Tools → NuGet Package Manager → Package Manager Console
 
 ## Project Status
 
