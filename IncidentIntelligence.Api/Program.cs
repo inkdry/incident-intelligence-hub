@@ -26,7 +26,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// TestServer does not expose an HTTPS port. Production-like environments keep
+// HTTPS redirection enabled while integration tests exercise the HTTP pipeline.
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    app.UseHttpsRedirection();
+}
 
 // Map GraphQL and enable the GraphQL tooling only in Development via HotChocolate options.
 app.MapGraphQL()
