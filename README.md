@@ -1,6 +1,6 @@
 # Incident Intelligence Hub
 
-![Incident Intelligence Hub](docs/incident-intelligence-hub.png)
+![Incident Intelligence Hub](docs/incident-intelligence-hub-github.png)
 
 An incident management platform designed for AI-assisted workflows This repository contains the
 API and domain implementation. A React frontend and Azure deployment are
