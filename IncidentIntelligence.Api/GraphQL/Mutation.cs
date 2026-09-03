@@ -25,4 +25,14 @@ public sealed class Mutation
 
         return await reportingService.UpdateAsync(command, cancellationToken);
     }
+
+    public Task<Incident> StartIncidentInvestigationAsync(
+        Guid id,
+        [Service] IIncidentReportingService reportingService,
+        CancellationToken cancellationToken)
+    {
+        return reportingService.StartInvestigationAsync(
+            new StartIncidentInvestigationCommand(id),
+            cancellationToken);
+    }
 }

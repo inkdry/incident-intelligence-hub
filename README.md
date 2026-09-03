@@ -17,7 +17,7 @@ identify similar historical events, and generate draft post-incident reports.
 ## Current Features
 
 - ASP.NET Core 10 GraphQL API (Hot Chocolate)
-- GraphQL queries and mutations for incidents (status, list, report, update)
+- GraphQL queries and mutations for incidents (status, list, report, update, start investigation)
 - Entity Framework Core persistence to SQL Server (Incidents table and migrations)
 - Incident domain model (validation and lifecycle)
 - xUnit v3 tests (unit and integration)
@@ -74,6 +74,16 @@ In Visual Studio, open:
 
 ```text
 Tools → NuGet Package Manager → Package Manager Console
+```
+
+Set `IncidentIntelligence.Infrastructure` as the default project, then run:
+
+```powershell
+Update-Database
+```
+
+The development connection string is configured in
+`IncidentIntelligence.Api/appsettings.Development.json`.
 
 ## Project Status
 
