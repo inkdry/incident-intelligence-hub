@@ -41,6 +41,8 @@ public sealed class Incident
 
     public DateTimeOffset? InvestigationStartedAtUtc { get; private set; }
 
+    public DateTimeOffset? MitigatedAtUtc { get; private set; }
+
     public void StartInvestigation()
     {
         if (Status != IncidentStatus.Reported)
@@ -51,6 +53,17 @@ public sealed class Incident
         // Record the lifecycle change and its audit timestamp.
         Status = IncidentStatus.Investigating;
         InvestigationStartedAtUtc = DateTimeOffset.UtcNow;
+    }
+
+    public void Mitigate()
+    {
+        if (Status != IncidentStatus.Investigating)
+        {
+            throw new InvalidOperationException("Only an incident under investigation can be mitigated.");
+        }
+
+        Status = IncidentStatus.Mitigated;
+        MitigatedAtUtc = DateTimeOffset.UtcNow;
     }
 
     /// <summary>

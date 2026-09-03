@@ -40,6 +40,8 @@ public sealed class EntityFrameworkUpdateIntegrationTests
             id = created.Id;
 
             await service.UpdateAsync(new UpdateIncidentCommand(id, "EF updated", "EF updated desc", IncidentSeverity.Medium), cancellationToken);
+            await service.StartInvestigationAsync(new StartIncidentInvestigationCommand(id), cancellationToken);
+            await service.MitigateAsync(new MitigateIncidentCommand(id), cancellationToken);
         }
 
         // Reload in a new context and verify
@@ -52,6 +54,8 @@ public sealed class EntityFrameworkUpdateIntegrationTests
             Assert.Equal("EF updated", loaded!.Title);
             Assert.Equal("EF updated desc", loaded.Description);
             Assert.Equal(IncidentSeverity.Medium, loaded.Severity);
+            Assert.Equal(IncidentStatus.Mitigated, loaded.Status);
+            Assert.NotNull(loaded.MitigatedAtUtc);
         }
     }
 }

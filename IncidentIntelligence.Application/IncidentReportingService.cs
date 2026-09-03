@@ -55,4 +55,23 @@ public sealed class IncidentReportingService(IIncidentRepository repository) : I
 
         return incident;
     }
+
+    public async Task<Incident> MitigateAsync(
+        MitigateIncidentCommand command,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        var incident = await repository.GetByIdAsync(command.Id, cancellationToken);
+
+        if (incident is null)
+        {
+            throw new KeyNotFoundException($"Incident '{command.Id}' was not found.");
+        }
+
+        incident.Mitigate();
+        await repository.SaveChangesAsync(cancellationToken);
+
+        return incident;
+    }
 }
