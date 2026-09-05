@@ -10,6 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddOpenApi();
 builder.Services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
+var frontendOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        if (frontendOrigins.Length > 0)
+        {
+            policy.WithOrigins(frontendOrigins).AllowAnyHeader().AllowAnyMethod();
+        }
+    });
+});
 var connectionString = builder.Configuration.GetConnectionString("IncidentDatabase")
     ?? throw new InvalidOperationException("The IncidentDatabase connection string is missing.");
 
@@ -32,6 +43,8 @@ if (!app.Environment.IsEnvironment("Testing"))
 {
     app.UseHttpsRedirection();
 }
+
+app.UseCors("Frontend");
 
 // Map GraphQL and enable the GraphQL tooling only in Development via HotChocolate options.
 app.MapGraphQL()

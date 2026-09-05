@@ -2,9 +2,8 @@
 
 ![Incident Intelligence Hub](docs/incident-intelligence-hub-github.png)
 
-An incident management platform designed for AI-assisted workflows This repository contains the
-API and domain implementation. A React frontend and Azure deployment are
-planned features (see Planned Features).
+An incident management platform designed for AI-assisted workflows. This repository contains the
+API, domain implementation, and React frontend. Azure deployment is a planned feature.
 
 [![Build and Test](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/inkdry/incident-intelligence-hub/actions/workflows/build-and-test.yml)
 
@@ -21,12 +20,12 @@ identify similar historical events, and generate draft post-incident reports.
 - Entity Framework Core persistence to SQL Server (Incidents table and migrations)
 - Incident domain model (validation and lifecycle)
 - xUnit v3 tests (unit and integration)
+- React and TypeScript incident dashboard
 
 Note: The Nitro (GraphQL tooling) interface is available in Development only.
 
 ## Planned Features
 
-- React and TypeScript user interface (frontend)
 - AI-generated incident summaries and similarity search
 - Authentication and role-based authorization
 - Expanded automation and CI/CD workflows targeting GitHub Actions and Azure
@@ -40,11 +39,11 @@ Note: The Nitro (GraphQL tooling) interface is available in Development only.
 - SQL Server
 - Entity Framework Core
 - xUnit v3
+- React
+- TypeScript
 
 ### Planned
 
-- React
-- TypeScript
 - Azure
 - AI integration (summarization, similarity search)
 
@@ -58,6 +57,15 @@ Note: The Nitro (GraphQL tooling) interface is available in Development only.
 The GraphQL endpoint accepts POST requests for queries and mutations. The
 GraphQL tooling (Nitro) is enabled only when running in the Development
 environment.
+
+## Running the Frontend
+
+1. Start the API using its HTTPS launch profile.
+2. From `IncidentIntelligence.Web`, copy `.env.example` to `.env.local` if you need to override the API URL.
+3. Run `npm install`, then `npm run dev`.
+4. Open `http://localhost:3000`.
+
+The development API allows browser requests from ports 3000 and 5173.
 
 Run this query (POST) against `/graphql`:
 
