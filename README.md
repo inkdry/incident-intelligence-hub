@@ -17,7 +17,7 @@ identify similar historical events, and generate draft post-incident reports.
 ## Current Features
 
 - ASP.NET Core 10 GraphQL API (Hot Chocolate)
-- GraphQL queries and mutations for incidents (status, list, report, update, start investigation, mitigate)
+- GraphQL queries and mutations for incidents (status, list, report, update, start investigation, mitigate, resolve)
 - Entity Framework Core persistence to SQL Server (Incidents table and migrations)
 - Incident domain model (validation and lifecycle)
 - xUnit v3 tests (unit and integration)

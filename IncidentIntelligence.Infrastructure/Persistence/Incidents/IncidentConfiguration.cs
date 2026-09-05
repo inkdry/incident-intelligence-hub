@@ -28,5 +28,7 @@ public sealed class IncidentConfiguration : IEntityTypeConfiguration<Incident>
         builder.Property(incident => incident.InvestigationStartedAtUtc);
 
         builder.Property(incident => incident.MitigatedAtUtc);
+
+        builder.Property(incident => incident.ResolvedAtUtc);
     }
 }

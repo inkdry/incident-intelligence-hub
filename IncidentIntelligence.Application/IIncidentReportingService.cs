@@ -15,4 +15,8 @@ public interface IIncidentReportingService
     Task<Incident> MitigateAsync(
         MitigateIncidentCommand command,
         CancellationToken cancellationToken);
+
+    Task<Incident> ResolveAsync(
+        ResolveIncidentCommand command,
+        CancellationToken cancellationToken);
 }

@@ -45,4 +45,14 @@ public sealed class Mutation
             new MitigateIncidentCommand(id),
             cancellationToken);
     }
+
+    public Task<Incident> ResolveIncidentAsync(
+        Guid id,
+        [Service] IIncidentReportingService reportingService,
+        CancellationToken cancellationToken)
+    {
+        return reportingService.ResolveAsync(
+            new ResolveIncidentCommand(id),
+            cancellationToken);
+    }
 }

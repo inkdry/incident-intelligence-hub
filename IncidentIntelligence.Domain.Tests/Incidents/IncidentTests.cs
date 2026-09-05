@@ -97,4 +97,29 @@ public sealed class IncidentTests
         Assert.Contains("under investigation", exception.Message);
         Assert.Null(incident.MitigatedAtUtc);
     }
+
+    [Fact]
+    public void ResolveChangesMitigatedIncident()
+    {
+        var incident = new Incident("Authentication failures", "Users cannot sign in.", IncidentSeverity.High);
+        incident.StartInvestigation();
+        incident.Mitigate();
+
+        incident.Resolve();
+
+        Assert.Equal(IncidentStatus.Resolved, incident.Status);
+        Assert.NotNull(incident.ResolvedAtUtc);
+        Assert.True(incident.ResolvedAtUtc >= incident.MitigatedAtUtc);
+    }
+
+    [Fact]
+    public void ResolveRejectsIncidentThatIsNotMitigated()
+    {
+        var incident = new Incident("Authentication failures", "Users cannot sign in.", IncidentSeverity.High);
+
+        var exception = Assert.Throws<InvalidOperationException>(incident.Resolve);
+
+        Assert.Contains("mitigated incident", exception.Message);
+        Assert.Null(incident.ResolvedAtUtc);
+    }
 }

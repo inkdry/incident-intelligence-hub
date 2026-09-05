@@ -43,6 +43,8 @@ public sealed class Incident
 
     public DateTimeOffset? MitigatedAtUtc { get; private set; }
 
+    public DateTimeOffset? ResolvedAtUtc { get; private set; }
+
     public void StartInvestigation()
     {
         if (Status != IncidentStatus.Reported)
@@ -64,6 +66,17 @@ public sealed class Incident
 
         Status = IncidentStatus.Mitigated;
         MitigatedAtUtc = DateTimeOffset.UtcNow;
+    }
+
+    public void Resolve()
+    {
+        if (Status != IncidentStatus.Mitigated)
+        {
+            throw new InvalidOperationException("Only a mitigated incident can be resolved.");
+        }
+
+        Status = IncidentStatus.Resolved;
+        ResolvedAtUtc = DateTimeOffset.UtcNow;
     }
 
     /// <summary>
