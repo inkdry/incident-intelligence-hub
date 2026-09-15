@@ -30,5 +30,11 @@ public sealed class IncidentConfiguration : IEntityTypeConfiguration<Incident>
         builder.Property(incident => incident.MitigatedAtUtc);
 
         builder.Property(incident => incident.ResolvedAtUtc);
+        builder.Property(incident => incident.Version).IsConcurrencyToken();
+        builder.Property(incident => incident.Summary).HasMaxLength(Incident.SummaryMaxLength);
+        builder.Property(incident => incident.SummaryModel).HasMaxLength(200);
+        builder.Property(incident => incident.SummaryGeneratedAtUtc);
+        builder.Property(incident => incident.SummarySourceVersion);
+        builder.Ignore(incident => incident.SummaryIsStale);
     }
 }

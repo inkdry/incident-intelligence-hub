@@ -1,5 +1,6 @@
 using IncidentIntelligence.Api.GraphQL;
 using IncidentIntelligence.Application.Incidents;
+using IncidentIntelligence.Infrastructure.AI;
 
 using IncidentIntelligence.Infrastructure.Persistence;
 using IncidentIntelligence.Infrastructure.Persistence.Incidents;
@@ -9,7 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddOpenApi();
-builder.Services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    // Local model loading and generation can exceed GraphQL's 30-second default.
+    // Leave room for the five-minute Ollama timeout to return its useful error.
+    .ModifyRequestOptions(options => options.ExecutionTimeout = TimeSpan.FromMinutes(6));
 var frontendOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>
 {
@@ -28,6 +34,20 @@ builder.Services.AddDbContext<IncidentIntelligenceDbContext>(options => options.
 
 builder.Services.AddScoped<IIncidentRepository, EntityFrameworkIncidentRepository>();
 builder.Services.AddScoped<IIncidentReportingService, IncidentReportingService>();
+builder.Services.Configure<OpenAiSummaryOptions>(builder.Configuration.GetSection("OpenAI"));
+builder.Services.Configure<OllamaSummaryOptions>(builder.Configuration.GetSection("Ollama"));
+builder.Services.AddHttpClient<OpenAiIncidentSummaryGenerator>(client =>
+    client.Timeout = TimeSpan.FromSeconds(60));
+builder.Services.AddHttpClient<OllamaIncidentSummaryGenerator>(client =>
+    client.Timeout = TimeSpan.FromMinutes(5));
+builder.Services.AddScoped<IIncidentSummaryGenerator>(services =>
+    (builder.Configuration["AI:Provider"] ?? "Ollama").Trim().ToUpperInvariant() switch
+    {
+        "OLLAMA" => services.GetRequiredService<OllamaIncidentSummaryGenerator>(),
+        "OPENAI" => services.GetRequiredService<OpenAiIncidentSummaryGenerator>(),
+        _ => throw new SummaryGenerationException("Set AI:Provider to Ollama or OpenAI in the API configuration.")
+    });
+builder.Services.AddScoped<IncidentSummaryService>();
 
 var app = builder.Build();
 

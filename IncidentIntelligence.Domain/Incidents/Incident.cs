@@ -4,6 +4,7 @@ public sealed class Incident
 {
     public const int TitleMaxLength = 200;
     public const int DescriptionMaxLength = 4000;
+    public const int SummaryMaxLength = 8000;
 
     private Incident()
     {
@@ -45,6 +46,26 @@ public sealed class Incident
 
     public DateTimeOffset? ResolvedAtUtc { get; private set; }
 
+    public Guid Version { get; private set; } = Guid.NewGuid();
+    public string? Summary { get; private set; }
+    public DateTimeOffset? SummaryGeneratedAtUtc { get; private set; }
+    public string? SummaryModel { get; private set; }
+    public Guid? SummarySourceVersion { get; private set; }
+    public bool SummaryIsStale => Summary is not null && SummarySourceVersion != Version;
+
+    public void SaveSummary(string text, string model, Guid sourceVersion)
+    {
+        if (string.IsNullOrWhiteSpace(text) || text.Trim().Length > SummaryMaxLength)
+            throw new ArgumentException($"Summary must contain between 1 and {SummaryMaxLength} characters.", nameof(text));
+        if (string.IsNullOrWhiteSpace(model) || model.Trim().Length > 200)
+            throw new ArgumentException("Summary model must contain between 1 and 200 characters.", nameof(model));
+
+        Summary = text.Trim();
+        SummaryModel = model.Trim();
+        SummaryGeneratedAtUtc = DateTimeOffset.UtcNow;
+        SummarySourceVersion = sourceVersion;
+    }
+
     public void StartInvestigation()
     {
         if (Status != IncidentStatus.Reported)
@@ -55,6 +76,7 @@ public sealed class Incident
         // Record the lifecycle change and its audit timestamp.
         Status = IncidentStatus.Investigating;
         InvestigationStartedAtUtc = DateTimeOffset.UtcNow;
+        Version = Guid.NewGuid();
     }
 
     public void Mitigate()
@@ -66,6 +88,7 @@ public sealed class Incident
 
         Status = IncidentStatus.Mitigated;
         MitigatedAtUtc = DateTimeOffset.UtcNow;
+        Version = Guid.NewGuid();
     }
 
     public void Resolve()
@@ -77,6 +100,7 @@ public sealed class Incident
 
         Status = IncidentStatus.Resolved;
         ResolvedAtUtc = DateTimeOffset.UtcNow;
+        Version = Guid.NewGuid();
     }
 
     /// <summary>
@@ -86,6 +110,8 @@ public sealed class Incident
     {
         ValidateTitleAndDescription(title, description);
 
+        if (Title != title.Trim() || Description != description.Trim() || Severity != severity)
+            Version = Guid.NewGuid();
         Title = title.Trim();
         Description = description.Trim();
         Severity = severity;

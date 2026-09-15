@@ -5,6 +5,29 @@ namespace IncidentIntelligence.Api.GraphQL;
 
 public sealed class Mutation
 {
+    public async Task<Incident> GenerateIncidentSummaryAsync(
+        Guid id,
+        [Service] IncidentSummaryService summaryService,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await summaryService.GenerateAsync(id, cancellationToken);
+        }
+        catch (SummaryGenerationException exception)
+        {
+            throw new GraphQLException(ErrorBuilder.New().SetMessage(exception.Message).SetCode("SUMMARY_GENERATION_FAILED").Build());
+        }
+        catch (System.Collections.Generic.KeyNotFoundException)
+        {
+            throw new GraphQLException(ErrorBuilder.New().SetMessage("This incident no longer exists.").SetCode("INCIDENT_NOT_FOUND").Build());
+        }
+        catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
+        {
+            throw new GraphQLException(ErrorBuilder.New().SetMessage("The incident changed while generating its summary. Refresh and try again.").SetCode("INCIDENT_CHANGED").Build());
+        }
+    }
+
     public async Task<Incident> ReportIncidentAsync(
         ReportIncidentInput input,
         [Service] IIncidentReportingService reportingService,

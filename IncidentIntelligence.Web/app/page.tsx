@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
+import { IncidentSummary } from '@/components/incident-summary';
 import { getIncidents, Incident, IncidentSeverity, reportIncident, transitionIncident, updateIncident } from '@/lib/graphql';
 
 const severities: IncidentSeverity[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
@@ -94,7 +95,7 @@ export default function Home() {
 
   function replaceIncident(updated: Incident) {
     setIncidents((current) => current.map((item) => item.id === updated.id ? updated : item));
-    setSelected(updated);
+    setSelected((current) => current?.id === updated.id ? updated : current);
   }
   async function handleTransition() {
     if (!selected || !(selected.status in nextAction)) return;
@@ -150,7 +151,7 @@ export default function Home() {
 
     <Sheet open={!!selected} onOpenChange={(open) => !open && setSelected(null)}><SheetContent className="w-full overflow-y-auto sm:max-w-xl">{selected && <>
       <SheetHeader className="border-b p-6 pr-14"><div className="mb-3 flex gap-2"><Badge variant="outline" className={severityTone(selected.severity)}>{humanize(selected.severity)}</Badge><Badge className={statusTone(selected.status)}>{humanize(selected.status)}</Badge></div><SheetTitle className="text-2xl leading-tight">{selected.title}</SheetTitle><SheetDescription>Reported {formatDate(selected.reportedAtUtc)}</SheetDescription></SheetHeader>
-      <div className="space-y-7 p-6"><section><h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Description</h3><p className="leading-7">{selected.description}</p></section><section><h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Lifecycle</h3><Timeline label="Reported" value={selected.reportedAtUtc} active /><Timeline label="Investigation started" value={selected.investigationStartedAtUtc} active={!!selected.investigationStartedAtUtc} /><Timeline label="Mitigated" value={selected.mitigatedAtUtc} active={!!selected.mitigatedAtUtc} /><Timeline label="Resolved" value={selected.resolvedAtUtc} active={!!selected.resolvedAtUtc} last /></section></div>
+      <div className="space-y-7 p-6"><IncidentSummary key={selected.id} incident={selected} onGenerated={replaceIncident} /><section><h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Description</h3><p className="leading-7">{selected.description}</p></section><section><h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Lifecycle</h3><Timeline label="Reported" value={selected.reportedAtUtc} active /><Timeline label="Investigation started" value={selected.investigationStartedAtUtc} active={!!selected.investigationStartedAtUtc} /><Timeline label="Mitigated" value={selected.mitigatedAtUtc} active={!!selected.mitigatedAtUtc} /><Timeline label="Resolved" value={selected.resolvedAtUtc} active={!!selected.resolvedAtUtc} last /></section></div>
       <SheetFooter className="border-t bg-muted/30 p-6"><Button variant="outline" onClick={() => { setEditing(selected); setFormOpen(true); }}><Pencil /> Edit details</Button>{selected.status in nextAction && <Button onClick={() => void handleTransition()} disabled={saving}>{saving ? 'Updating…' : nextAction[selected.status as keyof typeof nextAction].label}<ArrowRight /></Button>}</SheetFooter>
     </>}</SheetContent></Sheet>
     <IncidentForm key={editing?.id ?? 'new'} open={formOpen} incident={editing} saving={saving} onOpenChange={setFormOpen} onSave={saveIncident} />

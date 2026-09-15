@@ -11,6 +11,10 @@ export interface Incident {
   investigationStartedAtUtc: string | null;
   mitigatedAtUtc: string | null;
   resolvedAtUtc: string | null;
+  summary: string | null;
+  summaryGeneratedAtUtc: string | null;
+  summaryModel: string | null;
+  summaryIsStale: boolean;
 }
 
 interface GraphQlResponse<T> {
@@ -33,7 +37,13 @@ async function execute<T>(query: string, variables?: Record<string, unknown>): P
   return result.data;
 }
 
-const incidentFields = `id title description severity status reportedAtUtc investigationStartedAtUtc mitigatedAtUtc resolvedAtUtc`;
+const incidentFields = `id title description severity status reportedAtUtc investigationStartedAtUtc mitigatedAtUtc resolvedAtUtc summary summaryGeneratedAtUtc summaryModel summaryIsStale`;
+
+export async function generateIncidentSummary(id: string): Promise<Incident> {
+  const data = await execute<{ generateIncidentSummary: Incident }>(
+    `mutation GenerateSummary($id: UUID!) { generateIncidentSummary(id: $id) { ${incidentFields} } }`, { id });
+  return data.generateIncidentSummary;
+}
 
 export async function getIncidents(): Promise<Incident[]> {
   const data = await execute<{ incidents: Incident[] }>(`query Incidents { incidents { ${incidentFields} } }`);
